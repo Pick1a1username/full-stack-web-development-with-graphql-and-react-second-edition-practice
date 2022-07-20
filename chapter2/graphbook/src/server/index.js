@@ -4,6 +4,8 @@ import express from 'express';
 import helmet from 'helmet';
 import path from 'path';
 
+import services from './services';
+
 const app = express();
 
 app.use(compress());
@@ -26,5 +28,18 @@ app.use(helmet.contentSecurityPolicy({
     }
 }));
 app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
+
+const serviceNames = Object.keys(services);
+for (let i = 0; i < serviceNames.length; i += 1) {
+    const name = serviceNames[i];
+    if (name === 'graphql') {
+        (async () => {
+            await services[name].start();
+            services[name].applyMiddleware({ app });
+        })();
+    } else {
+        app.use('/${name}', services[name]);
+    }
+}
 
 app.listen(8000, () => console.log('Listening on port 8000!'));
