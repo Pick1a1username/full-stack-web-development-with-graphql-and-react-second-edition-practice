@@ -21,12 +21,15 @@ Get into the MySQL.
 docker exec -it graphbook-mysql mysql -u root -p
 ```
 
-Create a user for the app.
+Setup database.
 
 ```sql
 CREATE USER 'devuser'@'%' IDENTIFIED BY 'PASSWORD';
 GRANT ALL PRIVILEGES ON *.* TO 'devuser'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
+
+CREATE DATABASE graphbook_dev CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 quit
 ```
 
