@@ -5,7 +5,12 @@ import helmet from 'helmet';
 import path from 'path';
 
 import db from './database';
-import services from './services';
+import servicesLoader from './services';
+
+const utils = {
+    db,
+};
+const services = servicesLoader(utils);
 
 const app = express();
 
