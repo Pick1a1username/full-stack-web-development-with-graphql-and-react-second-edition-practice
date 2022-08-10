@@ -4,6 +4,7 @@ import express from 'express';
 import helmet from 'helmet';
 import path from 'path';
 
+import db from './database';
 import services from './services';
 
 const app = express();

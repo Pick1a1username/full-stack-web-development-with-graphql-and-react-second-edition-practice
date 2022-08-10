@@ -45,3 +45,23 @@ Stop the container.
 ```bash
 docker stop  graphbook-mysql
 ```
+
+## Setup the table and insert a dataset.
+
+Install `sequelize-cli` at first.
+
+```bash
+npm install -g sequelize-cli
+```
+
+Create the table.
+
+```bash
+sequelize db:migrate --migrations-path src/server/migrations --config src/server/config/index.js
+```
+
+Insert a dataset.
+
+```bash
+sequelize db:seed:all --seeders-path src/server/seeders --config src/server/config/index.js
+```
