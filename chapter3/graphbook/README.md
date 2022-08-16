@@ -1,5 +1,7 @@
 # Chapter 3
 
+Tested in node 14.
+
 ## Running a MySQL Container
 
 Run a MySQL container.
@@ -64,4 +66,13 @@ Insert a dataset.
 
 ```bash
 sequelize db:seed:all --seeders-path src/server/seeders --config src/server/config/index.js
+```
+
+
+## Run the app
+
+Run the server.
+
+```
+NODE_ENV=development npm run server
 ```
