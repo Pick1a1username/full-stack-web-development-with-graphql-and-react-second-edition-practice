@@ -68,6 +68,11 @@ Insert a dataset.
 sequelize db:seed:all --seeders-path src/server/seeders --config src/server/config/index.js
 ```
 
+Remove the dataset if you want to reset data.
+
+```bash
+sequelize db:seed:undo:all --seeders-path src/server/seeders --config src/server/config/index.js
+```
 
 ## Run the app
 
@@ -75,4 +80,44 @@ Run the server.
 
 ```
 NODE_ENV=development npm run server
+```
+
+
+## GraphQL Query Examples
+
+```sh
+curl -X POST http://localhost:8000/graphql \
+-H "Content-Type: application/json" \
+-d '{ "operationName": null, "query": "{ posts { id text } }", "variables": {} }'
+```
+
+```sh
+curl -X POST http://localhost:8000/graphql \
+-H "Content-Type: application/json" \
+-d '{ "operationName": null, "query": "mutation addPost($post : PostInput!) { addPost(post : $post) { id text user { username avatar }}}", "variables":{ "post": { "text": "You just added a post." } } }'
+```
+
+```sh
+curl -X POST http://localhost:8000/graphql \
+-H "Content-Type: application/json" \
+-d '{ "operationName":null, "query": "mutation addChat($chat: ChatInput!) { addChat(chat: $chat) { id users { id } }}", "variables":{ "chat": { "users": [1, 2] } } }'
+```
+
+
+```sh
+curl -X POST http://localhost:8000/graphql \
+-H "Content-Type: application/json" \
+-d '{ "operationName":null, "query": "{ chats { id users { id } messages { id text user { id username } } } }", "variables":{} }'
+```
+
+```sh
+curl -X POST http://localhost:8000/graphql \
+-H "Content-Type: application/json" \
+-d '{ "operationName":null, "query": "query($chatId: Int!){ chat(chatId: $chatId) { id users { id } messages { id text user { id username } } } }", "variables":{ "chatId": 1 } }'
+```
+
+```sh
+curl -X POST http://localhost:8000/graphql \
+-H "Content-Type: application/json" \
+-d '{ "operationName":null, "query": "mutation addMessage($message : MessageInput!) { addMessage(message : $message) { id text }}", "variables":{ "message": { "text": "You just added a message.", "chatId": 1 } } }'
 ```
